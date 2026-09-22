@@ -28,7 +28,7 @@
     --text-secondary: #A7A1B2;
     --text-tertiary: #655E72;
     
-    /* Nueva Paleta: Pearl, Silver & Soft Amethyst */
+    /* Paleta: Pearl, Silver & Soft Amethyst */
     --pearl: #F3F1F7;
     --silver: #D5D1DF;
     --amethyst: #C4B5FD;
@@ -384,12 +384,12 @@
     box-shadow: var(--shadow-specular);
     display: grid;
     grid-template-columns: 1fr auto 1fr;
-    min-height: 86px;
+    min-height: 88px;
     margin-bottom: 14px;
     overflow: hidden;
     user-select: none;
     transform: translateZ(0);
-    transition: border-color 0.3s;
+    transition: all 0.3s ease;
   }
   .split-timer-card.running {
     border-color: rgba(196, 181, 253, 0.38);
@@ -432,13 +432,13 @@
     text-shadow: 0 0 20px rgba(248, 113, 113, 0.5);
   }
 
-  /* LÍNEA CENTRAL DESVANECIDA */
+  /* LÍNEA CENTRAL */
   .timer-split-divider {
     width: 1px;
     background: linear-gradient(to bottom, transparent 4%, rgba(255, 255, 255, 0.22) 20%, rgba(255, 255, 255, 0.22) 80%, transparent 96%);
   }
 
-  /* LADO DERECHO: PRESETS ARRIBA + PLAY/PAUSA ABAJO */
+  /* LADO DERECHO: PRESETS 2, 3, 5 ARRIBA + PLAY/PAUSA ABAJO */
   .timer-split-right {
     display: flex;
     flex-direction: column;
@@ -493,6 +493,62 @@
   }
   .split-timer-card.running .timer-action-icon {
     color: var(--amethyst);
+  }
+
+  /* ==========================================================================
+     MODO HORIZONTAL INMERSIVO (RELOJ DE SALA EN GYM)
+     ========================================================================== */
+  @media (orientation: landscape) and (max-height: 540px) {
+    body.is-landscape-gym .bottom-navbar,
+    body.is-landscape-gym header,
+    body.is-landscape-gym .ambient-glow,
+    body.is-landscape-gym .gym-header-row,
+    body.is-landscape-gym .gym-hero-card,
+    body.is-landscape-gym .section-label,
+    body.is-landscape-gym #gymExerciseList,
+    body.is-landscape-gym #btnAddExGym,
+    body.is-landscape-gym #btnFinishWorkout,
+    body.is-landscape-gym #btnUndoSessionToday,
+    body.is-landscape-gym #gymRestNotice {
+      display: none !important;
+    }
+    body.is-landscape-gym {
+      padding-bottom: 0 !important;
+      overflow: hidden !important;
+    }
+    body.is-landscape-gym .app-container {
+      max-width: 100vw !important;
+      height: 100vh !important;
+      padding: 8px !important;
+      margin: 0 !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+    }
+    body.is-landscape-gym #tabGym {
+      width: 100% !important;
+      height: 100% !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+    }
+    body.is-landscape-gym .split-timer-card {
+      width: 100% !important;
+      height: calc(100vh - 16px) !important;
+      margin: 0 !important;
+      border-radius: var(--radius-xl) !important;
+    }
+    body.is-landscape-gym .timer-huge-digits {
+      font-size: min(20vw, 100px) !important;
+    }
+    body.is-landscape-gym .preset-pill-btn {
+      font-size: 15px !important;
+      padding: 8px 0 !important;
+    }
+    body.is-landscape-gym .timer-action-icon {
+      width: 52px !important;
+      height: 52px !important;
+    }
   }
 
   .gym-hero-card {
@@ -947,7 +1003,7 @@
 
 <div class="app-container">
 
-  <!-- ================= PESTAÑA 1: TU DÍA (INICIO) ================= -->
+  <!-- ================= PESTAÑA 1: TU DÍA ================= -->
   <div class="view-tab active" id="tabHome">
     <header>
       <div class="brand">
@@ -960,7 +1016,6 @@
       </div>
     </header>
 
-    <!-- RACHA ACTUAL -->
     <div class="streak-container">
       <div style="display:flex; flex-direction:column;">
         <span style="font-size:10px; font-weight:800; color:var(--text-tertiary); text-transform:uppercase; letter-spacing:0.5px;">Constancia</span>
@@ -971,7 +1026,6 @@
       </div>
     </div>
 
-    <!-- TARJETA DE PROGRESO -->
     <div class="hero-progress-card" id="heroProgressCard">
       <div class="ring-box">
         <svg viewBox="0 0 48 48">
@@ -1005,7 +1059,7 @@
     </button>
   </div>
 
-  <!-- ================= PESTAÑA 2: GYM (ENTRENAMIENTO) ================= -->
+  <!-- ================= PESTAÑA 2: GYM ================= -->
   <div class="view-tab" id="tabGym">
     <div class="gym-header-row">
       <div class="gym-title-box">
@@ -1022,7 +1076,7 @@
 
     <!-- CRONÓMETRO DIVIDIDO 50/50 SIMÉTRICO -->
     <div class="split-timer-card" id="splitTimerCard">
-      <!-- MITAD IZQUIERDA (50%): DÍGITOS (TOCAR = REINICIAR) -->
+      <!-- MITAD IZQUIERDA (50%): DÍGITOS GIGANTES (TOCAR = REINICIAR) -->
       <div class="timer-split-left" id="btnTimerResetHalf" title="Reiniciar a 00:00">
         <div class="timer-huge-digits" id="timerDigitsDisplay">00:00</div>
       </div>
@@ -1413,9 +1467,12 @@
 </div>
 
 <script>
+let swRegistration = null;
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('./sw.js').catch(err => console.log('SW error', err));
+    navigator.serviceWorker.register('./sw.js')
+      .then(reg => { swRegistration = reg; })
+      .catch(err => console.log('SW error', err));
   });
 }
 
@@ -1662,70 +1719,50 @@ function addBodyMeasurementToday(){
 }
 
 /* ==========================================================================
-   MOTOR DE MIGRACIÓN AUTOMÁTICA Y BLINDAJE DE DATOS
+   PERSISTENCIA & MIGRACIÓN PERMANENTE
    ========================================================================== */
 const PERMANENT_STATE_KEY = 'protocolo_master_v1';
 const PERMANENT_DAILY_PREFIX = 'protocolo_daily_master_';
 
 function loadData(){
   try {
-    // 1. Intentar cargar desde la clave maestra permanente
     let loadedState = localStorage.getItem(PERMANENT_STATE_KEY);
-    
-    // 2. Si no existe, escanear y migrar automáticamente de versiones anteriores
     if (!loadedState) {
       const legacyKeys = [
-        'protocolo_state_v19',
-        'protocolo_state_v18',
-        'protocolo_state_v16',
-        'protocolo_state_v14',
-        'protocolo_state_v12'
+        'protocolo_state_v19', 'protocolo_state_v18',
+        'protocolo_state_v16', 'protocolo_state_v14', 'protocolo_state_v12'
       ];
       for (const k of legacyKeys) {
         const candidate = localStorage.getItem(k);
-        if (candidate) {
-          loadedState = candidate;
-          break;
-        }
+        if (candidate) { loadedState = candidate; break; }
       }
     }
 
     if (loadedState) {
       const parsed = JSON.parse(loadedState);
       state = { ...state, ...parsed };
-      // Asegurar que si faltan listas clave, no se rompa nada
       if (parsed.evolution) state.evolution = { ...state.evolution, ...parsed.evolution };
       if (parsed.routine) state.routine = { ...state.routine, ...parsed.routine };
     }
 
-    // 3. Migrar daily del día
     const today = todayKey();
     let loadedDaily = localStorage.getItem(PERMANENT_DAILY_PREFIX + today);
     if (!loadedDaily) {
       const legacyDailyKeys = [
-        'protocolo_daily_v19_' + today,
-        'protocolo_daily_v18_' + today,
-        'protocolo_daily_v16_' + today,
-        'protocolo_daily_v14_' + today,
-        'protocolo_daily_v12_' + today
+        'protocolo_daily_v19_' + today, 'protocolo_daily_v18_' + today,
+        'protocolo_daily_v16_' + today, 'protocolo_daily_v14_' + today, 'protocolo_daily_v12_' + today
       ];
       for (const dk of legacyDailyKeys) {
         const candidateD = localStorage.getItem(dk);
-        if (candidateD) {
-          loadedDaily = candidateD;
-          break;
-        }
+        if (candidateD) { loadedDaily = candidateD; break; }
       }
     }
-    if (loadedDaily) {
-      daily = { ...daily, ...JSON.parse(loadedDaily) };
-    }
+    if (loadedDaily) daily = { ...daily, ...JSON.parse(loadedDaily) };
 
-    // Guardar inmediatamente en la clave maestra permanente
     saveData();
     saveDaily();
   } catch(e){
-    console.error('Error durante la carga de datos:', e);
+    console.error('Error durante la carga:', e);
   }
 
   if (!state.habits || state.habits.length === 0) {
@@ -1798,13 +1835,11 @@ function checkStreakProgress(pct){
   }
 }
 
-/* WAKE LOCK (PANTALLA DESPIERTA) */
+/* WAKE LOCK */
 let wakeLock = null;
 async function requestWakeLock() {
   if ('wakeLock' in navigator) {
-    try {
-      wakeLock = await navigator.wakeLock.request('screen');
-    } catch(e){}
+    try { wakeLock = await navigator.wakeLock.request('screen'); } catch(e){}
   }
 }
 function releaseWakeLock() {
@@ -1812,6 +1847,63 @@ function releaseWakeLock() {
     wakeLock.release().then(() => { wakeLock = null; });
   }
 }
+
+/* SINTETIZADOR DE AUDIO (CHIME DE DESCANSO VÍA WEB AUDIO API) */
+let audioCtx = null;
+function initAudio() {
+  if (!audioCtx) {
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  }
+  if (audioCtx.state === 'suspended') {
+    audioCtx.resume();
+  }
+}
+
+function playRestChime() {
+  try {
+    initAudio();
+    if (!audioCtx) return;
+    const now = audioCtx.currentTime;
+
+    // Doble campana armónica clara
+    const osc1 = audioCtx.createOscillator();
+    const gain1 = audioCtx.createGain();
+    osc1.type = 'sine';
+    osc1.frequency.setValueAtTime(880, now); // La5
+    gain1.gain.setValueAtTime(0.35, now);
+    gain1.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
+    osc1.connect(gain1);
+    gain1.connect(audioCtx.destination);
+    osc1.start(now);
+    osc1.stop(now + 0.35);
+
+    const osc2 = audioCtx.createOscillator();
+    const gain2 = audioCtx.createGain();
+    osc2.type = 'sine';
+    osc2.frequency.setValueAtTime(1174.66, now + 0.22); // Re6
+    gain2.gain.setValueAtTime(0.4, now + 0.22);
+    gain2.gain.exponentialRampToValueAtTime(0.001, now + 0.65);
+    osc2.connect(gain2);
+    gain2.connect(audioCtx.destination);
+    osc2.start(now + 0.22);
+    osc2.stop(now + 0.65);
+  } catch(e) {
+    console.log('Error de audio:', e);
+  }
+}
+
+/* GESTIÓN DE ORIENTACIÓN HORIZONTAL */
+function checkOrientation() {
+  const isGym = document.getElementById('tabGym').classList.contains('active');
+  const isLandscape = window.innerWidth > window.innerHeight;
+  if (isGym && isLandscape) {
+    document.body.classList.add('is-landscape-gym');
+  } else {
+    document.body.classList.remove('is-landscape-gym');
+  }
+}
+window.addEventListener('resize', checkOrientation);
+window.addEventListener('orientationchange', checkOrientation);
 
 /* NAVEGACIÓN */
 const navItems = document.querySelectorAll('.nav-item');
@@ -1830,6 +1922,8 @@ navItems.forEach(item => {
     } else {
       releaseWakeLock();
     }
+
+    checkOrientation();
 
     if (tabId === 'tabEvolution') {
       renderEvolutionTab();
@@ -2064,7 +2158,7 @@ function bindClassesEvents(){
 }
 
 /* ==========================================================================
-   GYM LOGIC: DÍAS, EJERCICIOS, REORDENAR Y COPIAR MARCA
+   GYM LOGIC: REORDENAR Y COPIAR MARCA
    ========================================================================== */
 function moveExercise(dayKey, idx, direction){
   const exercises = state.routine[dayKey].exercises;
@@ -2149,8 +2243,8 @@ function renderGymExercises(){
             ${prevBadgeHtml}
           </div>
           <div class="ex-actions-top">
-            <button class="btn-reorder-ex btn-move-up" data-idx="${i}" title="Subir ejercicio" ${i === 0 ? 'disabled style="opacity:0.3;"' : ''}>▲</button>
-            <button class="btn-reorder-ex btn-move-down" data-idx="${i}" title="Bajar ejercicio" ${i === day.exercises.length - 1 ? 'disabled style="opacity:0.3;"' : ''}>▼</button>
+            <button class="btn-reorder-ex btn-move-up" data-idx="${i}" title="Subir" ${i === 0 ? 'disabled style="opacity:0.3;"' : ''}>▲</button>
+            <button class="btn-reorder-ex btn-move-down" data-idx="${i}" title="Bajar" ${i === day.exercises.length - 1 ? 'disabled style="opacity:0.3;"' : ''}>▼</button>
             <button class="btn-sets-cfg" data-idx="${i}" title="Configurar series">${targetSets > 0 ? `${targetSets} Sets` : 'Sets: Off'}</button>
             <button class="btn-history-ex" data-idx="${i}">Historial</button>
             <button class="btn-remove-ex rm-ex-btn" data-idx="${i}">✕</button>
@@ -2194,7 +2288,6 @@ function renderGymExercises(){
     });
   });
 
-  // BOTONES REORDENAR EJERCICIOS
   list.querySelectorAll('.btn-move-up').forEach(btn => {
     btn.addEventListener('click', () => {
       const idx = parseInt(btn.dataset.idx);
@@ -2208,7 +2301,6 @@ function renderGymExercises(){
     });
   });
 
-  // BOTÓN COPIAR MARCA ANTERIOR
   list.querySelectorAll('.btn-copy-benchmark').forEach(btn => {
     btn.addEventListener('click', () => {
       const idx = parseInt(btn.dataset.idx);
@@ -2225,9 +2317,9 @@ function renderGymExercises(){
     });
   });
 
-  // BURBUJA DE SERIE (ARRANCA CRONÓMETRO)
   list.querySelectorAll('.set-bubble-btn').forEach(btn=>{
     btn.addEventListener('click', ()=>{
+      initAudio();
       const exIdx = parseInt(btn.dataset.ex);
       const sIdx = parseInt(btn.dataset.s);
       const sessionKey = `${currentGymDay}_${exIdx}`;
@@ -2248,7 +2340,6 @@ function renderGymExercises(){
     });
   });
 
-  // CONFIGURAR SERIES (ACTUALIZA "Nx")
   list.querySelectorAll('.btn-sets-cfg').forEach(btn=>{
     btn.addEventListener('click', ()=>{
       const idx = parseInt(btn.dataset.idx);
@@ -2304,14 +2395,12 @@ document.getElementById('btnFinishWorkout').addEventListener('click', ()=>{
   alert('🔥 ¡Excelente sesión! Guardado en tu evolución y racha.');
 });
 
-// DESHACER / BORRAR SESIÓN DE HOY NATIVO
 document.getElementById('btnUndoSessionToday').addEventListener('click', () => {
   if (confirm('¿Quieres borrar la sesión de hoy? Se limpiará el registro de hoy en Evolución y el hábito volverá a pendiente.')) {
     const today = todayKey();
     state.evolution.workouts = state.evolution.workouts.filter(w => w.date !== today);
     daily.habitsDone['gym'] = false;
     
-    // Desmarcar burbujas de hoy
     if (daily.setMarks) {
       Object.keys(daily.setMarks).forEach(k => {
         if (k.startsWith(currentGymDay + '_')) delete daily.setMarks[k];
@@ -2347,13 +2436,13 @@ document.getElementById('btnCloseHistoryModal').addEventListener('click', ()=>{
 });
 
 /* ==========================================================================
-   MOTOR DEL CRONÓMETRO DIVIDIDO 50/50 SIMÉTRICO
+   MOTOR DEL CRONÓMETRO 50/50 + NOTIFICACIONES MÓVILES + AUDIO CHIME
    ========================================================================== */
 let timerBaseSeconds = 0;
 let timerStartTime = null;
 let timerInterval = null;
 let isTimerRunning = false;
-let targetRestSeconds = 180; // 3 min por defecto
+let targetRestSeconds = 180;
 let hasNotifiedRest = false;
 
 const splitTimerCard = document.getElementById('splitTimerCard');
@@ -2373,21 +2462,40 @@ function formatTimer(s){
   return `${String(m).padStart(2,'0')}:${String(sec).padStart(2,'0')}`;
 }
 
-function notifyRestGoalMet() {
+/* DISPARADOR DE NOTIFICACIÓN COMPATIBLE CON BRAVE / ANDROID */
+async function triggerRestNotification() {
   const m = Math.floor(targetRestSeconds / 60);
   const s = targetRestSeconds % 60;
   const timeStr = `${m}:${String(s).padStart(2,'0')}`;
+  const title = '⏱️ Descanso cumplido';
+  const options = {
+    body: `Alcanzaste los ${timeStr} min. ¡A la barra!`,
+    icon: 'icon.png',
+    badge: 'icon.png',
+    vibrate: [200, 100, 200, 100, 400],
+    tag: 'protocolo-rest-goal',
+    renotify: true
+  };
 
-  if ('Notification' in window && Notification.permission === 'granted') {
-    try {
-      new Notification('⏱️ Descanso cumplido', {
-        body: `Alcanzaste los ${timeStr} min. ¡A la siguiente serie!`,
-        vibrate: [200, 100, 200, 100, 400]
-      });
-    } catch(e){}
-  }
+  // 1. Reproducir sonido de campana por audífonos/parlante
+  playRestChime();
+
+  // 2. Intentar vibración física
   if (navigator.vibrate) {
     try { navigator.vibrate([200, 100, 200, 100, 400]); } catch(e){}
+  }
+
+  // 3. Notificación nativa en Android vía Service Worker
+  if (swRegistration && swRegistration.showNotification) {
+    try {
+      await swRegistration.showNotification(title, options);
+      return;
+    } catch(e){}
+  }
+
+  // 4. Fallback estándar
+  if ('Notification' in window && Notification.permission === 'granted') {
+    try { new Notification(title, options); } catch(e){}
   }
 }
 
@@ -2398,7 +2506,7 @@ function updateSplitTimerUI(){
   if (s >= targetRestSeconds && s > 0) {
     splitTimerCard.classList.add('overtime');
     if (!hasNotifiedRest) {
-      notifyRestGoalMet();
+      triggerRestNotification();
       hasNotifiedRest = true;
     }
   } else {
@@ -2408,9 +2516,13 @@ function updateSplitTimerUI(){
 
 function startCombatTimer(){
   if (isTimerRunning) return;
+  initAudio();
+
+  // Pedir permiso al primer toque si aún no se concede
   if ('Notification' in window && Notification.permission === 'default') {
     Notification.requestPermission();
   }
+
   isTimerRunning = true;
   timerStartTime = Date.now();
   splitTimerCard.classList.add('running');
@@ -2456,6 +2568,7 @@ btnTimerResetHalf.addEventListener('click', () => {
 document.querySelectorAll('.preset-pill-btn').forEach(btn => {
   btn.addEventListener('click', (e) => {
     e.stopPropagation();
+    initAudio();
     document.querySelectorAll('.preset-pill-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
     targetRestSeconds = parseInt(btn.dataset.sec) || 180;
@@ -2469,7 +2582,7 @@ document.addEventListener('visibilitychange', () => {
 });
 
 /* ==========================================================================
-   MI EVOLUCIÓN ENGINE (CON BÚSQUEDA DE FUERZA)
+   MI EVOLUCIÓN ENGINE (CON BÚSQUEDA RÁPIDA DE FUERZA)
    ========================================================================== */
 function getPeriodDateBounds(periodKey){
   const now = new Date();
@@ -2914,7 +3027,7 @@ function renderNativeSvgLineChart(svgId, points, tooltipId, unit, isPercentage =
   svg.innerHTML = `
     <defs>
       <linearGradient id="grad_${svgId}" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stop-color="${strokeColor}" stop-opacity="0.32"/>
+        <stop offset="0%" stop-color="${strokeColor}" stop-opacity="0.35"/>
         <stop offset="100%" stop-color="${strokeColor}" stop-opacity="0.0"/>
       </linearGradient>
     </defs>
@@ -3025,7 +3138,7 @@ document.getElementById('btnExportData').addEventListener('click', () => {
     protocolo_state: state,
     protocolo_daily: daily,
     export_date: todayKey(),
-    version: '6.0-MASTER-PEARL'
+    version: '7.0-MASTER-CHIME-LANDSCAPE'
   };
   const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(exportPayload, null, 2));
   const downloadAnchor = document.createElement('a');
