@@ -15,20 +15,21 @@
 <style>
   :root {
     --bg-base: #08060D;
-    /* macOS Liquid Glass: translúcido platino con acentos amatista */
-    --surface-glass: rgba(255, 255, 255, 0.045);
-    --surface-hover: rgba(255, 255, 255, 0.075);
-    --glass-blur: blur(28px) saturate(190%);
-    --border-glass: rgba(255, 255, 255, 0.12);
+    
+    /* Liquid Glass Auténtico macOS (Capa cristalina, traslúcida y con bisel brillante) */
+    --surface-glass-card: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.015) 100%);
+    --surface-hover: rgba(255, 255, 255, 0.08);
+    --glass-blur: blur(32px) saturate(210%) brightness(110%);
+    --border-glass: rgba(255, 255, 255, 0.16);
     --border-glow: rgba(196, 181, 253, 0.35);
-    --shadow-specular: 0 16px 36px rgba(0, 0, 0, 0.5), inset 0 1px 1.5px 0 rgba(255, 255, 255, 0.22);
-    --shadow-specular-soft: 0 8px 22px rgba(0, 0, 0, 0.38), inset 0 1px 1px 0 rgba(255, 255, 255, 0.16);
+    --shadow-specular: 0 20px 40px rgba(0, 0, 0, 0.6), inset 0 1px 1.5px 0 rgba(255, 255, 255, 0.38), inset 0 -1px 1px 0 rgba(255, 255, 255, 0.04);
+    --shadow-specular-soft: 0 10px 26px rgba(0, 0, 0, 0.45), inset 0 1px 1px 0 rgba(255, 255, 255, 0.28);
 
     --text-primary: #FFFFFF;
     --text-secondary: #A7A1B2;
     --text-tertiary: #655E72;
     
-    /* Paleta: Pearl, Silver & Soft Amethyst */
+    /* Pearl, Silver & Soft Amethyst */
     --pearl: #F3F1F7;
     --silver: #D5D1DF;
     --amethyst: #C4B5FD;
@@ -57,8 +58,8 @@
   body {
     background-color: var(--bg-base);
     background-image: 
-      radial-gradient(ellipse 95% 60% at 50% -12%, rgba(196, 181, 253, 0.16) 0%, rgba(100, 75, 140, 0.08) 45%, transparent 80%),
-      radial-gradient(ellipse 70% 40% at 50% 100%, rgba(213, 209, 223, 0.05) 0%, transparent 75%);
+      radial-gradient(ellipse 95% 60% at 50% -12%, rgba(196, 181, 253, 0.18) 0%, rgba(100, 75, 140, 0.08) 45%, transparent 80%),
+      radial-gradient(ellipse 70% 40% at 50% 100%, rgba(213, 209, 223, 0.06) 0%, transparent 75%);
     background-attachment: fixed;
     color: var(--text-primary);
     font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -76,7 +77,7 @@
     width: 100vw;
     max-width: 680px;
     height: 380px;
-    background: radial-gradient(circle at 50% -10%, rgba(196, 181, 253, 0.14) 0%, rgba(80, 60, 110, 0.05) 45%, transparent 75%);
+    background: radial-gradient(circle at 50% -10%, rgba(196, 181, 253, 0.16) 0%, rgba(80, 60, 110, 0.06) 45%, transparent 75%);
     pointer-events: none;
     z-index: 0;
   }
@@ -141,7 +142,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background: var(--surface-glass);
+    background: var(--surface-glass-card);
     backdrop-filter: var(--glass-blur);
     -webkit-backdrop-filter: var(--glass-blur);
     border: 1px solid var(--border-glass);
@@ -168,7 +169,6 @@
     color: #DDD6FE;
     border: 1px solid #A78BFA;
     box-shadow: 0 0 16px rgba(167, 139, 250, 0.35);
-    animation: pearlPulse 2s infinite alternate ease-in-out;
   }
   .streak-tier-3 {
     background: linear-gradient(135deg, #F3F1F7 0%, #C4B5FD 50%, #A78BFA 100%);
@@ -176,14 +176,10 @@
     border: 1px solid #FFFFFF;
     box-shadow: 0 0 24px rgba(196, 181, 253, 0.6), inset 0 0 8px rgba(255, 255, 255, 0.6);
   }
-  @keyframes pearlPulse {
-    from { box-shadow: 0 0 8px rgba(196, 181, 253, 0.25); }
-    to { box-shadow: 0 0 20px rgba(196, 181, 253, 0.55); }
-  }
 
   /* TARJETA DE PROGRESO */
   .hero-progress-card {
-    background: var(--surface-glass);
+    background: var(--surface-glass-card);
     backdrop-filter: var(--glass-blur);
     -webkit-backdrop-filter: var(--glass-blur);
     border: 1px solid var(--border-glass);
@@ -193,7 +189,6 @@
     align-items: center;
     gap: 16px;
     margin-bottom: 16px;
-    transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
     box-shadow: var(--shadow-specular);
     transform: translateZ(0);
   }
@@ -228,7 +223,7 @@
 
   /* TARJETAS DE HÁBITOS */
   .task-card {
-    background: var(--surface-glass);
+    background: var(--surface-glass-card);
     backdrop-filter: var(--glass-blur);
     -webkit-backdrop-filter: var(--glass-blur);
     border: 1px solid var(--border-glass);
@@ -241,8 +236,7 @@
     position: relative;
   }
   .task-card:hover { 
-    background: var(--surface-hover); 
-    border-color: rgba(255, 255, 255, 0.2); 
+    border-color: rgba(255, 255, 255, 0.25); 
   }
   .task-card.done { opacity: 0.72; }
   .task-card.done:hover { opacity: 0.95; }
@@ -373,10 +367,10 @@
   .btn-undo-session:hover { background: rgba(248, 113, 113, 0.16); }
 
   /* ==========================================================================
-     CRONÓMETRO DIVIDIDO 50/50 SIMÉTRICO (SPLIT LIQUID GLASS)
+     CRONÓMETRO 50/50 SIMÉTRICO (SPLIT LIQUID GLASS)
      ========================================================================== */
   .split-timer-card {
-    background: var(--surface-glass);
+    background: var(--surface-glass-card);
     backdrop-filter: var(--glass-blur);
     -webkit-backdrop-filter: var(--glass-blur);
     border: 1px solid var(--border-glass);
@@ -392,8 +386,8 @@
     transition: all 0.3s ease;
   }
   .split-timer-card.running {
-    border-color: rgba(196, 181, 253, 0.38);
-    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.5), 0 0 20px rgba(196, 181, 253, 0.12), inset 0 1px 1.5px 0 rgba(255, 255, 255, 0.28);
+    border-color: rgba(196, 181, 253, 0.42);
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.5), 0 0 20px rgba(196, 181, 253, 0.15), inset 0 1px 1.5px 0 rgba(255, 255, 255, 0.38);
   }
   .split-timer-card.overtime {
     border-color: var(--danger);
@@ -402,7 +396,6 @@
   }
   @keyframes overtimePulse { from { transform: scale(1); } to { transform: scale(1.015); } }
 
-  /* LADO IZQUIERDO: NÚMEROS CENTRADOS (TOCAR = REINICIAR) */
   .timer-split-left {
     display: flex;
     align-items: center;
@@ -432,13 +425,11 @@
     text-shadow: 0 0 20px rgba(248, 113, 113, 0.5);
   }
 
-  /* LÍNEA CENTRAL */
   .timer-split-divider {
     width: 1px;
-    background: linear-gradient(to bottom, transparent 4%, rgba(255, 255, 255, 0.22) 20%, rgba(255, 255, 255, 0.22) 80%, transparent 96%);
+    background: linear-gradient(to bottom, transparent 4%, rgba(255, 255, 255, 0.28) 20%, rgba(255, 255, 255, 0.28) 80%, transparent 96%);
   }
 
-  /* LADO DERECHO: PRESETS 2, 3, 5 ARRIBA + PLAY/PAUSA ABAJO */
   .timer-split-right {
     display: flex;
     flex-direction: column;
@@ -496,7 +487,7 @@
   }
 
   /* ==========================================================================
-     MODO HORIZONTAL INMERSIVO (RELOJ DE SALA EN GYM)
+     MODO HORIZONTAL INMERSIVO (RELOJ DE SALA)
      ========================================================================== */
   @media (orientation: landscape) and (max-height: 540px) {
     body.is-landscape-gym .bottom-navbar,
@@ -552,7 +543,7 @@
   }
 
   .gym-hero-card {
-    background: var(--surface-glass);
+    background: var(--surface-glass-card);
     backdrop-filter: var(--glass-blur);
     -webkit-backdrop-filter: var(--glass-blur);
     border: 1px solid var(--border-glass);
@@ -593,7 +584,7 @@
 
   /* TARJETAS DE EJERCICIOS */
   .exercise-item-card {
-    background: var(--surface-glass);
+    background: var(--surface-glass-card);
     backdrop-filter: var(--glass-blur);
     -webkit-backdrop-filter: var(--glass-blur);
     border: 1px solid var(--border-glass);
@@ -721,7 +712,7 @@
   .evo-period-bar {
     display: flex;
     gap: 4px;
-    background: var(--surface-glass);
+    background: var(--surface-glass-card);
     backdrop-filter: var(--glass-blur);
     -webkit-backdrop-filter: var(--glass-blur);
     border: 1px solid var(--border-glass);
@@ -790,7 +781,7 @@
     margin-bottom: 18px;
   }
   .evo-stat-card {
-    background: var(--surface-glass);
+    background: var(--surface-glass-card);
     backdrop-filter: var(--glass-blur);
     -webkit-backdrop-filter: var(--glass-blur);
     border: 1px solid var(--border-glass);
@@ -811,7 +802,7 @@
   .delta-neutral { color: var(--text-tertiary); }
 
   .evo-block {
-    background: var(--surface-glass);
+    background: var(--surface-glass-card);
     backdrop-filter: var(--glass-blur);
     -webkit-backdrop-filter: var(--glass-blur);
     border: 1px solid var(--border-glass);
@@ -1074,17 +1065,14 @@
       <input type="text" class="gym-focus-input" id="gymFocusInput" placeholder="Ej: Pecho A + Tríceps + Antebrazo">
     </div>
 
-    <!-- CRONÓMETRO DIVIDIDO 50/50 SIMÉTRICO -->
+    <!-- CRONÓMETRO 50/50 SIMÉTRICO -->
     <div class="split-timer-card" id="splitTimerCard">
-      <!-- MITAD IZQUIERDA (50%): DÍGITOS GIGANTES (TOCAR = REINICIAR) -->
       <div class="timer-split-left" id="btnTimerResetHalf" title="Reiniciar a 00:00">
         <div class="timer-huge-digits" id="timerDigitsDisplay">00:00</div>
       </div>
 
-      <!-- LÍNEA CENTRAL -->
       <div class="timer-split-divider"></div>
 
-      <!-- MITAD DERECHA (50%): PRESETS 2, 3, 5 + PLAY/PAUSA -->
       <div class="timer-split-right">
         <div class="timer-presets-strip">
           <button class="preset-pill-btn" data-sec="120">2</button>
@@ -1189,7 +1177,7 @@
       </div>
     </div>
 
-    <!-- SECCIÓN: FUERZA Y PESOS (CON FILTRO DE BÚSQUEDA) -->
+    <!-- SECCIÓN: FUERZA Y PESOS (FILTRO DINÁMICO) -->
     <div class="evo-block">
       <div class="evo-block-header">
         <div class="evo-block-title">
@@ -1245,7 +1233,7 @@
 
       <div class="section-label" style="margin-top:14px;">Zonas más y menos entrenadas</div>
       <div style="text-align:center; font-size:10.5px; color:var(--text-secondary); margin-bottom:8px;">
-        Calculado con las series que has registrado en este período.
+        Calculado exclusivamente con los músculos principales de tus ejercicios.
       </div>
       
       <div class="anatomy-stage" style="background: rgba(0,0,0,0.25); border-radius:14px; padding:12px 0;">
@@ -1319,7 +1307,6 @@
             <polygon class="poly-muscle poly-muscle-base m-hamstrings" data-m="femoral" points="71,105 59,107 61,139 71,136" />
             <polygon class="poly-muscle poly-muscle-dark m-hamstrings" data-m="femoral" points="71,105 61,139 68,128" />
             <polygon class="poly-muscle poly-muscle-base m-calves" data-m="pantorrillas" points="38,147 30,162 36,190 44,190 47,167" />
-            <polygon class="poly-muscle poly-muscle-light m-calves" data-m="pantorrillas" points="30,162 36,190 40,174" />
             <polygon class="poly-muscle poly-muscle-base m-calves" data-m="pantorrillas" points="72,147 80,162 74,190 66,190 63,167" />
           </svg>
           <span class="body-view-label">Dorsal</span>
@@ -1503,7 +1490,7 @@ const DEFAULT_ROUTINE = {
   mie:{label:'Descanso', exercises:[]},
   jue:{label:'Pecho B + Hombros + Pantorrillas', exercises:[{name:'Press Inclinado', sets:'4x10', weight:'30kg', targetSets:4, notes:'', history:['30kg x 10']}, {name:'Elevaciones Laterales', sets:'4x15', weight:'12kg', targetSets:4, notes:'', history:['12kg x 15']}]},
   vie:{label:'Descanso', exercises:[]},
-  sab:{label:'Pecho C + Espalda B (Pull Over) + Antebrazo', exercises:[{name:'Pull Over', sets:'4x12', weight:'28kg', targetSets:4, notes:'', history:['28kg x 12']}]},
+  sab:{label:'Pecho C + Espalda B (Pull Over) + Antebrazo', exercises:[{name:'Pull-over', sets:'4x12', weight:'28kg', targetSets:4, notes:'', history:['28kg x 12']}]},
   dom:{label:'Piernas completo + Pantorrillas', exercises:[{name:'Prensa 45° / Sentadilla', sets:'4x10', weight:'180kg', targetSets:4, notes:'', history:['180kg x 10']}, {name:'Curl Femoral', sets:'4x12', weight:'50kg', targetSets:4, notes:'', history:['50kg x 12']}]},
 };
 
@@ -1526,7 +1513,7 @@ let currentGymDay = DAYS[new Date().getDay() === 0 ? 6 : new Date().getDay()-1];
 let evoSelectedPeriod = '4w';
 let evoCompareWithPrev = false;
 let evoCurrentFuerzaEx = '';
-let evoSelectedMuscle = 'pecho';
+let evoSelectedMuscle = 'espalda';
 let evoCurrentBodyMetric = 'weight';
 let fuerzaSearchTerm = '';
 
@@ -1553,30 +1540,66 @@ function checkStreakIntegrity(){
 }
 
 const MUSCLE_RULES = {
-  'pecho': { label: 'Pecho', keys: ['pecho', 'inclinado', 'declinado', 'banca', 'fondos', 'aperturas', 'cruces', 'chest'] },
-  'espalda': { label: 'Espalda', keys: ['espalda', 'jalon', 'jalón', 'remo', 'dominadas', 'pullover', 'pull over', 'serrucho', 'dorsal', 'lats'] },
-  'hombros': { label: 'Hombros', keys: ['hombro', 'militar', 'laterales', 'pajaros', 'pájaros', 'deltoid', 'deltoides', 'elevaciones'] },
-  'biceps': { label: 'Bíceps', keys: ['bicep', 'biceps', 'bícep', 'bíceps', 'curl', 'martillo', 'predicador'] },
-  'triceps': { label: 'Tríceps', keys: ['tricep', 'triceps', 'trícep', 'tríceps', 'frances', 'francés', 'copa', 'fondos', 'polea triceps'] },
-  'cuadriceps': { label: 'Cuádriceps', keys: ['cuadricep', 'cuadriceps', 'prensa', 'sentadilla', 'hack', 'extensiones', 'zancadas', 'estocadas', 'pierna'] },
-  'femoral': { label: 'Femoral', keys: ['femoral', 'isquio', 'isquios', 'peso muerto', 'rdl', 'hamstrings'] },
-  'gluteos': { label: 'Glúteos', keys: ['gluteo', 'gluteos', 'glúteo', 'glúteos', 'hip thrust', 'patada gluteo', 'puente'] },
-  'pantorrillas': { label: 'Pantorrillas', keys: ['pantorrilla', 'pantorrillas', 'gemelo', 'gemelos', 'soleo', 'sóleo', 'calves'] },
-  'antebrazos': { label: 'Antebrazos', keys: ['antebrazo', 'antebrazos', 'muñeca', 'agarre'] },
-  'abs': { label: 'Core / Abs', keys: ['abdomen', 'abdominal', 'abs', 'core', 'plancha', 'crunch'] },
-  'trapecios': { label: 'Trapecios', keys: ['trapecio', 'trapecios', 'encogimientos', 'shrug'] },
-  'cuello': { label: 'Cuello', keys: ['cuello', 'neck'] }
+  'pecho': { label: 'Pecho' },
+  'espalda': { label: 'Espalda' },
+  'hombros': { label: 'Hombros' },
+  'biceps': { label: 'Bíceps' },
+  'triceps': { label: 'Tríceps' },
+  'cuadriceps': { label: 'Cuádriceps' },
+  'femoral': { label: 'Femoral' },
+  'gluteos': { label: 'Glúteos' },
+  'pantorrillas': { label: 'Pantorrillas' },
+  'antebrazos': { label: 'Antebrazos' },
+  'abs': { label: 'Core / Abs' },
+  'trapecios': { label: 'Trapecios' },
+  'cuello': { label: 'Cuello' }
 };
 
+/* CLASIFICADOR ESTRICTO DE MÚSCULO PRINCIPAL (SIN FALSOS POSITIVOS) */
 function getMusclesForExerciseName(name){
-  const clean = (name || '').toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-  const matched = [];
-  Object.keys(MUSCLE_RULES).forEach(mKey => {
-    if (MUSCLE_RULES[mKey].keys.some(k => clean.includes(k))) {
-      matched.push(mKey);
-    }
-  });
-  return matched.length ? matched : ['pecho'];
+  if (!name) return ['espalda'];
+  const clean = name.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
+
+  // 1. Bíceps tiene prioridad absoluta sobre cualquier "inclinado" (ej: Curl inclinado)
+  if (clean.includes('curl') && !clean.includes('femoral')) return ['biceps'];
+  if (clean.includes('bicep') || clean.includes('martillo') || clean.includes('predicador')) return ['biceps'];
+
+  // 2. Tríceps
+  if (clean.includes('tricep') || clean.includes('frances') || clean.includes('copa') || 
+      clean.includes('fondos') || clean.includes('pushdown') || clean.includes('patada')) return ['triceps'];
+
+  // 3. Deltoides / Hombros (incluye vuelos posteriores y peck deck posterior)
+  if (clean.includes('posterior') || clean.includes('pajaro') || clean.includes('face pull') || 
+      clean.includes('lateral') || clean.includes('hombro') || clean.includes('militar') || 
+      clean.includes('deltoid') || clean.includes('arnold')) return ['hombros'];
+
+  // 4. Espalda (Pull-over, remos, jalones, dominadas)
+  if (clean.includes('pullover') || clean.includes('pull over') || clean.includes('pull-over') || 
+      clean.includes('jalon') || clean.includes('remo') || clean.includes('dominada') || 
+      clean.includes('dorsal') || clean.includes('serrucho') || clean.includes('espalda') || 
+      clean.includes('lats') || clean.includes('t-bar')) return ['espalda'];
+
+  // 5. Pecho (Solo si es press o apertura, nunca curls ni posteriores)
+  if (clean.includes('pecho') || clean.includes('banca') || clean.includes('apertura') || 
+      clean.includes('cruce') || clean.includes('contractor') || 
+      ((clean.includes('inclinado') || clean.includes('declinado')) && clean.includes('press'))) return ['pecho'];
+
+  // 6. Pierna y tren inferior
+  if (clean.includes('femoral') || clean.includes('isquio') || clean.includes('peso muerto') || clean.includes('rdl')) return ['femoral'];
+  if (clean.includes('cuadricep') || clean.includes('sentadilla') || clean.includes('prensa') || clean.includes('hack') || clean.includes('extensiones') || clean.includes('zancada')) return ['cuadriceps'];
+  if (clean.includes('gluteo') || clean.includes('hip thrust')) return ['gluteos'];
+  if (clean.includes('pantorrilla') || clean.includes('gemelo') || clean.includes('soleo') || clean.includes('calves')) return ['pantorrillas'];
+  if (clean.includes('antebrazo') || clean.includes('muñeca')) return ['antebrazos'];
+  if (clean.includes('abdomen') || clean.includes('abs') || clean.includes('core') || clean.includes('plancha') || clean.includes('crunch')) return ['abs'];
+  if (clean.includes('trapecio') || clean.includes('encogimiento')) return ['trapecios'];
+
+  // Si no coincide, deducir por el enfoque del día de entrenamiento en vez de tirar todo a pecho
+  const currentFocus = (state.routine[currentGymDay]?.label || '').toLowerCase();
+  for (const mKey of Object.keys(MUSCLE_RULES)) {
+    if (currentFocus.includes(mKey)) return [mKey];
+  }
+
+  return ['espalda'];
 }
 
 function parseWeightNumber(str){
@@ -1586,12 +1609,22 @@ function parseWeightNumber(str){
   return isNaN(num) ? 0 : num;
 }
 
+/* PARSER SEGURO DE REPETICIONES (SOPORTA RANGOS COMO 10-15 SIN UNIR DÍGITOS) */
 function parseRepsNumber(setsStr){
   if (!setsStr) return 10;
-  const parts = setsStr.toLowerCase().split('x');
-  if (parts.length >= 2) {
-    const r = parseInt(parts[1].replace(/[^0-9]/g, ''));
-    if (!isNaN(r)) return r;
+  const clean = setsStr.toLowerCase().trim();
+  const target = clean.includes('x') ? clean.split('x')[1] : clean;
+  
+  // Extraer números independientes (ej: "10-15" extrae ["10", "15"])
+  const nums = target.match(/\d+/g);
+  if (nums && nums.length > 0) {
+    if (nums.length >= 2) {
+      const n1 = parseInt(nums[0]);
+      const n2 = parseInt(nums[1]);
+      // Promedio del rango sin disparar repeticiones gigantes
+      return Math.round((n1 + n2) / 2);
+    }
+    return parseInt(nums[0]);
   }
   return 10;
 }
@@ -1719,7 +1752,7 @@ function addBodyMeasurementToday(){
 }
 
 /* ==========================================================================
-   PERSISTENCIA & MIGRACIÓN PERMANENTE
+   PERSISTENCIA & AUTOCORRECCIÓN DE DATOS ANTERIORES
    ========================================================================== */
 const PERMANENT_STATE_KEY = 'protocolo_master_v1';
 const PERMANENT_DAILY_PREFIX = 'protocolo_daily_master_';
@@ -1743,6 +1776,20 @@ function loadData(){
       state = { ...state, ...parsed };
       if (parsed.evolution) state.evolution = { ...state.evolution, ...parsed.evolution };
       if (parsed.routine) state.routine = { ...state.routine, ...parsed.routine };
+    }
+
+    // AUTOCORRECCIÓN QUIRÚRGICA: Limpiar repeticiones gigantes (1015) y re-mapear músculos
+    if (state.evolution && Array.isArray(state.evolution.workouts)) {
+      state.evolution.workouts.forEach(w => {
+        if (w.reps >= 100) {
+          const s = String(w.reps);
+          if (s === '1015') w.reps = 12;
+          else if (s.length === 4) w.reps = Math.round((parseInt(s.slice(0,2)) + parseInt(s.slice(2))) / 2) || 12;
+          else w.reps = 12;
+        }
+        // Reclasificar con las nuevas reglas estrictas para vaciar Pecho de ejercicios ajenos
+        w.muscles = getMusclesForExerciseName(w.exercise);
+      });
     }
 
     const today = todayKey();
@@ -1835,20 +1882,33 @@ function checkStreakProgress(pct){
   }
 }
 
-/* WAKE LOCK */
-let wakeLock = null;
-async function requestWakeLock() {
-  if ('wakeLock' in navigator) {
-    try { wakeLock = await navigator.wakeLock.request('screen'); } catch(e){}
-  }
-}
-function releaseWakeLock() {
-  if (wakeLock) {
-    wakeLock.release().then(() => { wakeLock = null; });
+/* ==========================================================================
+   WAKE LOCK API: PANTALLA ACTIVA EXCLUSIVAMENTE EN MODO HORIZONTAL
+   ========================================================================== */
+let landscapeWakeLock = null;
+
+async function requestLandscapeWakeLock() {
+  if ('wakeLock' in navigator && !landscapeWakeLock) {
+    try {
+      landscapeWakeLock = await navigator.wakeLock.request('screen');
+      landscapeWakeLock.addEventListener('release', () => {
+        landscapeWakeLock = null;
+      });
+    } catch(e){}
   }
 }
 
-/* SINTETIZADOR DE AUDIO (CHIME DE DESCANSO VÍA WEB AUDIO API) */
+function releaseLandscapeWakeLock() {
+  if (landscapeWakeLock) {
+    landscapeWakeLock.release().then(() => {
+      landscapeWakeLock = null;
+    }).catch(() => {
+      landscapeWakeLock = null;
+    });
+  }
+}
+
+/* SINTETIZADOR DE AUDIO */
 let audioCtx = null;
 function initAudio() {
   if (!audioCtx) {
@@ -1865,11 +1925,10 @@ function playRestChime() {
     if (!audioCtx) return;
     const now = audioCtx.currentTime;
 
-    // Doble campana armónica clara
     const osc1 = audioCtx.createOscillator();
     const gain1 = audioCtx.createGain();
     osc1.type = 'sine';
-    osc1.frequency.setValueAtTime(880, now); // La5
+    osc1.frequency.setValueAtTime(880, now);
     gain1.gain.setValueAtTime(0.35, now);
     gain1.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
     osc1.connect(gain1);
@@ -1880,30 +1939,38 @@ function playRestChime() {
     const osc2 = audioCtx.createOscillator();
     const gain2 = audioCtx.createGain();
     osc2.type = 'sine';
-    osc2.frequency.setValueAtTime(1174.66, now + 0.22); // Re6
+    osc2.frequency.setValueAtTime(1174.66, now + 0.22);
     gain2.gain.setValueAtTime(0.4, now + 0.22);
     gain2.gain.exponentialRampToValueAtTime(0.001, now + 0.65);
     osc2.connect(gain2);
     gain2.connect(audioCtx.destination);
     osc2.start(now + 0.22);
     osc2.stop(now + 0.65);
-  } catch(e) {
-    console.log('Error de audio:', e);
-  }
+  } catch(e){}
 }
 
-/* GESTIÓN DE ORIENTACIÓN HORIZONTAL */
+/* GESTIÓN DE ORIENTACIÓN: SOLO EN HORIZONTAL BLOQUEA LA PANTALLA */
 function checkOrientation() {
   const isGym = document.getElementById('tabGym').classList.contains('active');
   const isLandscape = window.innerWidth > window.innerHeight;
+  
   if (isGym && isLandscape) {
     document.body.classList.add('is-landscape-gym');
+    requestLandscapeWakeLock();
   } else {
     document.body.classList.remove('is-landscape-gym');
+    releaseLandscapeWakeLock();
   }
 }
 window.addEventListener('resize', checkOrientation);
 window.addEventListener('orientationchange', checkOrientation);
+
+// Re-adquisición automática ante suspensión o cambio de app
+document.addEventListener('visibilitychange', () => {
+  if (!document.hidden && document.body.classList.contains('is-landscape-gym')) {
+    requestLandscapeWakeLock();
+  }
+});
 
 /* NAVEGACIÓN */
 const navItems = document.querySelectorAll('.nav-item');
@@ -1916,12 +1983,6 @@ navItems.forEach(item => {
     document.querySelectorAll('.view-tab').forEach(t => t.classList.remove('active'));
     document.getElementById(tabId).classList.add('active');
     window.scrollTo(0,0);
-
-    if (tabId === 'tabGym') {
-      requestWakeLock();
-    } else {
-      releaseWakeLock();
-    }
 
     checkOrientation();
 
@@ -2158,7 +2219,7 @@ function bindClassesEvents(){
 }
 
 /* ==========================================================================
-   GYM LOGIC: REORDENAR Y COPIAR MARCA
+   GYM LOGIC: DÍAS, EJERCICIOS, REORDENAR Y COPIAR MARCA
    ========================================================================== */
 function moveExercise(dayKey, idx, direction){
   const exercises = state.routine[dayKey].exercises;
@@ -2253,7 +2314,7 @@ function renderGymExercises(){
         <div class="ex-bottom-grid">
           <div class="ex-field-box">
             <span class="ex-field-lbl">Series y reps</span>
-            <input type="text" class="ex-field-input ex-sets-input" placeholder="4x10" value="${escapeHtml(ex.sets)}">
+            <input type="text" class="ex-field-input ex-sets-input" placeholder="4x10-15" value="${escapeHtml(ex.sets)}">
           </div>
           <div class="ex-field-box">
             <span class="ex-field-lbl">Peso</span>
@@ -2355,7 +2416,7 @@ function renderGymExercises(){
         } else if (curSetsText.trim() === '') {
           day.exercises[idx].sets = `${count}x`;
         } else {
-          day.exercises[idx].sets = `${count}x${curSetsText.replace(/[^0-9\-]/g, '')}`;
+          day.exercises[idx].sets = `${count}x${curSetsText}`;
         }
 
         saveData();
@@ -2436,7 +2497,7 @@ document.getElementById('btnCloseHistoryModal').addEventListener('click', ()=>{
 });
 
 /* ==========================================================================
-   MOTOR DEL CRONÓMETRO 50/50 + NOTIFICACIONES MÓVILES + AUDIO CHIME
+   MOTOR DEL CRONÓMETRO 50/50 + ALERTA ACÚSTICA
    ========================================================================== */
 let timerBaseSeconds = 0;
 let timerStartTime = null;
@@ -2462,7 +2523,6 @@ function formatTimer(s){
   return `${String(m).padStart(2,'0')}:${String(sec).padStart(2,'0')}`;
 }
 
-/* DISPARADOR DE NOTIFICACIÓN COMPATIBLE CON BRAVE / ANDROID */
 async function triggerRestNotification() {
   const m = Math.floor(targetRestSeconds / 60);
   const s = targetRestSeconds % 60;
@@ -2477,15 +2537,12 @@ async function triggerRestNotification() {
     renotify: true
   };
 
-  // 1. Reproducir sonido de campana por audífonos/parlante
   playRestChime();
 
-  // 2. Intentar vibración física
   if (navigator.vibrate) {
     try { navigator.vibrate([200, 100, 200, 100, 400]); } catch(e){}
   }
 
-  // 3. Notificación nativa en Android vía Service Worker
   if (swRegistration && swRegistration.showNotification) {
     try {
       await swRegistration.showNotification(title, options);
@@ -2493,7 +2550,6 @@ async function triggerRestNotification() {
     } catch(e){}
   }
 
-  // 4. Fallback estándar
   if ('Notification' in window && Notification.permission === 'granted') {
     try { new Notification(title, options); } catch(e){}
   }
@@ -2518,7 +2574,6 @@ function startCombatTimer(){
   if (isTimerRunning) return;
   initAudio();
 
-  // Pedir permiso al primer toque si aún no se concede
   if ('Notification' in window && Notification.permission === 'default') {
     Notification.requestPermission();
   }
@@ -2582,7 +2637,7 @@ document.addEventListener('visibilitychange', () => {
 });
 
 /* ==========================================================================
-   MI EVOLUCIÓN ENGINE (CON BÚSQUEDA RÁPIDA DE FUERZA)
+   MI EVOLUCIÓN ENGINE
    ========================================================================== */
 function getPeriodDateBounds(periodKey){
   const now = new Date();
@@ -2753,6 +2808,7 @@ function renderEvoFuerzaSection(curW, bounds){
   const latestLog = exLogs[exLogs.length - 1];
   document.getElementById('lblUltimoPeso').textContent = `${latestLog.weight} kg × ${latestLog.reps} reps`;
   
+  // Fórmula de Epley sanitizada: W * (1 + r / 30)
   const epley1RM = Math.round(latestLog.weight * (1 + (latestLog.reps / 30)) * 10) / 10;
   document.getElementById('lbl1RMEstimado').textContent = `${epley1RM} kg`;
 
@@ -3138,7 +3194,7 @@ document.getElementById('btnExportData').addEventListener('click', () => {
     protocolo_state: state,
     protocolo_daily: daily,
     export_date: todayKey(),
-    version: '7.0-MASTER-CHIME-LANDSCAPE'
+    version: '8.0-LANDSCAPE-WAKELOCK'
   };
   const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(exportPayload, null, 2));
   const downloadAnchor = document.createElement('a');
